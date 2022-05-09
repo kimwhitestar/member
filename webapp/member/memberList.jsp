@@ -15,7 +15,6 @@
 <c:set var="Prev" value="◁" scope="page" />
 <c:set var="Next" value="▷" scope="page" />
 
-<c:set var="vos" value="${vos}" scope="request" />
 <c:set var="no" value="${vos.size()}" scope="page" />
 <c:set var="attrMid" scope="request" />
 <!DOCTYPE html>
@@ -30,8 +29,7 @@
     	function openWindowMemberDetail(mid) {
     		${attrMid} = mid;
     		let url = '${ctxPath}/memberDetail.mbr';
-    		//window.open(url, 'memberDetailWin', '800px', '600px');
-    		window.open(url, 'memberDetailWin', '');
+    		window.open(url, 'memberDetailWin', 'width=800px,height=600px');
     	}
     </script>
 </head>
@@ -64,7 +62,7 @@
 			<th>성명</th>
 			<th>성별</th>
 		</tr>
-<c:forEach var="vo" items="vos" varStatus="st">
+<c:forEach var="vo" items="${vos}" varStatus="st">
 		<tr>
 			<td><c:out value="${curScrStartNo}"></c:out></td>
 			<td><a href="javascript:openWindowMemberDetail(${vo.mid})"><c:out value="${vo.mid}"></c:out></a></td>
