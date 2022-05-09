@@ -11,8 +11,8 @@
 	<title>memberJoin.jsp</title>
 	<%@ include file="/include/bs4.jsp" %>
 	<!-- daum웹사이트에서 제공하는 script open 예제소스 -->
-	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"/>
-	<script src="${ctxPath}/js/post.js" />
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="${ctxPath}/js/post.js"></script>
 	<style></style>
 	<script>
 	'use strict';
@@ -261,13 +261,12 @@
     </div>
     <div class="form-group">
     	<label for="birthday">생일</label>
-<%--
-	Date now = new Date();
-    String strNow = new SimpleDateFormat("yyyy-MM-dd").format(now);
-    pageContext.setAttribute("birthday", strNow);
---%>
 		<c:set var="now" value="<%=new java.util.Date() %>"/>
 		<fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/>
+		<c:out value="${now }"/>
+		<fmt:parseDate var="now3" value="${now}" pattern="yyyy-MM-dd"/>
+		<c:out value="${now3 }"/>
+		
 		<input type="date" id="birthday" name="birthday" value="${birthday}" class="form-control"/>
     </div>
     <div class="form-group">
@@ -291,7 +290,7 @@
 			<input type="text" name="tel2" size=4 maxlength=4 class="form-control"/>-
 			<input type="text" name="tel3" size=4 maxlength=4 class="form-control"/>
 			<br>
-			<input type="hidden" id="telNo" name="telNo" minlength=12 maxlength=13 class="form-control">
+			<input type="hidden" id="telNo" name="telNo" maxlength=13 class="form-control">
 			<div id="telNoValid" class="valid-feedback"></div>
 			<div id="telNoInValid" class="invalid-feedback"></div>
 		</div> 
