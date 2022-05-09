@@ -42,7 +42,7 @@ public class MemberDAO {
 	}
 	//관리자의 경우 level=0, 관리자가 아닐 경우 level=99
 	public List<MemberVO> searchMemberList(int level, int startIndexNo, int pageSize) {
-		List<MemberVO> vos = new ArrayList();
+		List<MemberVO> vos = new ArrayList<>();
 		try {
 			if (0 == level) { //관리자
 				sql = "select *, timestampdiff(day, lastDate, now()) as overDaysUserDel from member order by idx desc limit ?, ? ";
@@ -106,6 +106,8 @@ public class MemberDAO {
 				vo.setNickName(rs.getString("nickName"));
 				vo.setLevel(rs.getInt("level"));
 				vo.setLastDate(rs.getString("lastDate"));
+			} else {
+				vo = null;
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL 에러 : " + e.getMessage());
@@ -148,6 +150,8 @@ public class MemberDAO {
 				vo.setStartDate(rs.getString("startDate"));
 				vo.setLastDate(rs.getString("lastDate"));
 				vo.setTodayCnt(rs.getInt("todayCnt"));
+			} else {
+				vo = null;
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL 에러 : " + e.getMessage());
@@ -303,5 +307,37 @@ public class MemberDAO {
 			instance.pstmtClose();
 		}
 		return res;	
+	}
+
+	public int update(MemberVO vo) {
+		int res = 0;
+		try {
+			sql = "update member set"
+					+ "		nickName = ?, name = ?, gender = ?, birthday = ?, tel = ?, address = ?,"
+					+ "		email = ?, homepage = ?, job = ?, hobby = ?, photo = ?, content = ?, userInfo = ? "
+					+ "where mid = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1 , vo.getNickName());
+			pstmt.setString(2 , vo.getName());
+			pstmt.setString(3 , vo.getGender());
+			pstmt.setString(4 , vo.getBirthday());
+			pstmt.setString(5 , vo.getTel());
+			pstmt.setString(6 , vo.getAddress());
+			pstmt.setString(7 , vo.getEmail());
+			pstmt.setString(8 , vo.getHomepage());
+			pstmt.setString(9 , vo.getJob());
+			pstmt.setString(10 , vo.getHobby());
+			pstmt.setString(11 , vo.getPhoto());
+			pstmt.setString(12 , vo.getContent());
+			pstmt.setString(13 , vo.getUserInfo());
+			pstmt.setString(14 , vo.getMid());
+			res = pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+		}
+		return res;
 	}
 }
