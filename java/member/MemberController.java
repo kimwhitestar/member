@@ -2,13 +2,13 @@ package member;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import admin.AdminMemberDeleteCommand;
+import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 @WebServlet("*.mbr")
@@ -21,20 +21,12 @@ public class MemberController extends HttpServlet {
 		String uri = request.getRequestURI();
 		String com = uri.substring(uri.lastIndexOf("/")+1, uri.lastIndexOf("."));
 		
-		//회원탈퇴-회원로그인불허(회원삭제 대기기간 : 30일)
-		if (com.equals("memberDeletePract")) {
-			command = new MemberDeletePractCommand();
-			command.execute(request, response);
-			viewPage = "/message/message.jsp";
-		}
-		//로그아웃
-		else if (com.equals("memberLogout")) {
-			command = new MemberLogoutCommand();
-			command.execute(request, response);
-			viewPage += "/member/memberLogout.jsp";
-		}
+		//세션이 끊겼으면, 회원레벨을 비회원으로 바꿔서 작업의 진행을 로그인창으로 보낸다.
+		HttpSession session = request.getSession();
+		int level = session.getAttribute("sLevel")==null ? 99 : (int) session.getAttribute("sLevel");
+		
 		//로그인
-		else if (com.equals("memberLogin")) {
+		if (com.equals("memberLogin")) {
 			command = new MemberLoginCommand();
 			command.execute(request, response);
 			viewPage += "/member/memberLogin.jsp";
@@ -44,12 +36,6 @@ public class MemberController extends HttpServlet {
 			command = new MemberLoginOkCommand();
 			command.execute(request, response);
 			viewPage = "/message/message.jsp";
-		}
-		//로그인 Main
-		else if (com.equals("memberMain")) {
-			command = new MemberMainCommand();
-			command.execute(request, response);
-			viewPage += "/member/memberMain.jsp";
 		}
 		//ID 중복체크
 		else if (com.equals("memberIdCheck")) {
@@ -72,6 +58,28 @@ public class MemberController extends HttpServlet {
 			command = new MemberJoinOkCommand();
 			command.execute(request, response);
 			viewPage = "/message/message.jsp";
+		}
+		else if (4 < level) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/");
+			dispatcher.forward(request, response);
+		}
+		//로그인 Main
+		else if (com.equals("memberMain")) {
+			command = new MemberMainCommand();
+			command.execute(request, response);
+			viewPage += "/member/memberMain.jsp";
+		}
+		//회원탈퇴-회원로그인불허(회원삭제 대기기간 : 30일)
+		else if (com.equals("memberDeletePract")) {
+			command = new MemberDeletePractCommand();
+			command.execute(request, response);
+			viewPage = "/message/message.jsp";
+		}
+		//로그아웃
+		else if (com.equals("memberLogout")) {
+			command = new MemberLogoutCommand();
+			command.execute(request, response);
+			viewPage += "/member/memberLogout.jsp";
 		}
 		//회원목록(공개회원)
 		else if (com.equals("memberList")) {
@@ -97,7 +105,7 @@ public class MemberController extends HttpServlet {
 			command.execute(request, response);
 			viewPage = "/message/message.jsp";
 		}
-		//회원정보수정
+		//회원비밀번호수정
 		else if (com.equals("memberUpdatePwd")) {
 			command = new MemberUpdatePwdCommand();
 			command.execute(request, response);
