@@ -25,7 +25,7 @@ public class MemberController extends HttpServlet {
 		if (com.equals("memberDeletePract")) {
 			command = new MemberDeletePractCommand();
 			command.execute(request, response);
-			viewPage += "/message/message.jsp";
+			viewPage = "/message/message.jsp";
 		}
 		//로그아웃
 		else if (com.equals("memberLogout")) {
@@ -43,7 +43,7 @@ public class MemberController extends HttpServlet {
 		else if (com.equals("memberLoginOk")) {
 			command = new MemberLoginOkCommand();
 			command.execute(request, response);
-			viewPage += "/message/message.jsp";
+			viewPage = "/message/message.jsp";
 		}
 		//로그인 Main
 		else if (com.equals("memberMain")) {
@@ -71,7 +71,7 @@ public class MemberController extends HttpServlet {
 		else if (com.equals("memberJoinOk")) {
 			command = new MemberJoinOkCommand();
 			command.execute(request, response);
-			viewPage += "/message/message.jsp";
+			viewPage = "/message/message.jsp";
 		}
 		//회원목록(공개회원)
 		else if (com.equals("memberList")) {
@@ -85,7 +85,25 @@ public class MemberController extends HttpServlet {
 			command.execute(request, response);
 			viewPage += "/member/memberDetail.jsp";
 		}
-
+		//회원정보수정
+		else if (com.equals("memberUpdate")) {
+			command = new MemberUpdateCommand();
+			command.execute(request, response);
+			viewPage += "/member/memberUpdate.jsp";
+		}
+		//회원정보수정OK
+		else if (com.equals("memberUpdateOk")) {
+			command = new MemberUpdateOkCommand();
+			command.execute(request, response);
+			viewPage = "/message/message.jsp";
+		}
+		//회원정보수정
+		else if (com.equals("memberUpdatePwd")) {
+			command = new MemberUpdatePwdCommand();
+			command.execute(request, response);
+			viewPage += "/member/memberUpdatePwd.jsp";
+		}
+		
 		
 				
 //		//아이디 찾기
