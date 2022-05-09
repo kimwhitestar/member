@@ -12,15 +12,15 @@
     //JavaScript 변수는 server실행일 경우 el표기법으로 사용가능하나, client실행일 경우는 순차가 안맞아서 사용안됨
     let msg = '${msg}';
     let mid = '${sMid}';
-    let val = '${val}';
+    let val = '${sNickName}';
     
     <!--/study/로그인 관련 연습-->
     if (msg == 'loginDeleteOk') msg = "회원 탈퇴됬습니다.";
     else if (msg == 'loginDeleteNo') msg = "회원 탈퇴 실패~~";
     else if (msg == 'loginOk') msg = "${sMid}님 로그인됬습니다";
     else if (msg == 'loginNo') msg = "로그인 실패~~";
-    else if (msg == 'loginIdCheckNo') msg = "회원ID 중복입니다.새로운 회원ID를 입력하세요";
-    else if (msg == 'loginJoinOk') msg = "회원 가입됬습니다.";
+    else if (msg == 'loginIdCheckNo') msg = "회원ID 중복입니다. 새로운 회원ID를 입력하세요";
+    else if (msg == 'loginJoinOk') msg = "회원에 가입했습니다.";
     else if (msg == 'loginJoinNo') msg = "회원 가입 실패~~";
     else if (msg == 'loginUpdateOk') msg = "회원정보 수정됬습니다.";
     else if (msg == 'loginUpdateNo') msg = "회원정보 수정 실패~~";
@@ -35,14 +35,16 @@
     else if (msg == 'memberLoginNo') msg = "로그인 실패~~";
     else if (msg == 'memberLoginOk') msg = "${val}님 로그인됬습니다";
     else if (msg == 'memberLogoutOk') msg = "${val}님 로그아웃됬습니다";
-    else if (msg == 'memberDeletePractOk') msg = "회원에서 탈퇴됬습니다";
-    else if (msg == 'memberDeletePractNo') msg = "회원 탈퇴 실패~~";
-    else if (msg == 'memberDeleteOk') msg = "회원DB에서 회원삭제됬습니다";
-    else if (msg == 'memberDeleteNo') msg = "회원DB에서 회원삭제 실패~~";
-    else if (msg == 'memberJoinOk') msg = "회원 가입됬습니다.";
+    else if (msg == 'memberJoinOk') msg = "회원으로 가입됬습니다.";
     else if (msg == 'memberJoinNo') msg = "회원 가입 실패~~";
+    else if (msg == 'memberUpdateOk') msg = "회원정보가 수정됬습니다.";
+    else if (msg == 'memberUpdateNo') msg = "회원정보 수정 실패~~";
     else if (msg == 'memberLevelUpdateOk') msg = "회원레벨이 수정됬습니다";
     else if (msg == 'memberLevelUpdateNo') msg = "회원레벨 수정 실패~~";
+    else if (msg == 'memberDeletePractOk') msg = "회원에서 탈퇴됬습니다";
+    else if (msg == 'memberDeletePractNo') msg = "회원 탈퇴 실패~~";
+    else if (msg == 'memberDeleteOk') msg = "회원DB에서 회원을 삭제했습니다";
+    else if (msg == 'memberDeleteNo') msg = "회원DB에서 회원 삭제 실패~~";
     
     <!--/admin/관리자 - 관리자로그인(인증), 관리자로그아웃 -->
     else if (msg == 'adminOk') msg = "관리자 인증됬습니다";
