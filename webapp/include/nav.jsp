@@ -73,6 +73,7 @@
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/memberList.mbr">공개회원목록</a>
 	<%	} %>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/memberUpdate.mbr">회원정보변경</a>
+		      <a class="dropdown-item" href="<%=request.getContextPath()%>/memberUpdatePwd.mbr">회원비밀번호변경</a>
 		      <a class="dropdown-item" href="javascript:checkMemberDelete()">회원탈퇴</a>
 		    </div>
 		</div>
