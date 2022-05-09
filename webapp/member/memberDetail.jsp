@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctxPath" value="${pageContext.request.contextPath}"/>
+<c:set var="newLine" value="\n" scope="page" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +36,7 @@
 		<tr><td>홈페이지 : ${vo.homepage}</td></tr>
 		<tr><td>직업 : ${vo.job}</td></tr>
 		<tr><td>취미 : ${vo.hobby}</td></tr>
-		<tr><td>자기소개 : ${vo.content}</td></tr>
+		<tr><td>자기소개 : ${fn:replace(vo.content, newLine, '<br>')}</td></tr>
 		<tr><td>회원등급 : ${vo.strLevel}</td></tr>
 		<tr><td>총방문횟수 : ${vo.visitCnt}</td></tr>
 		<tr><td>가입일자 : ${vo.startDate}</td></tr>

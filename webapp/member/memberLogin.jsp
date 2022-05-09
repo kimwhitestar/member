@@ -19,10 +19,10 @@
 <%@ include file="/include/header_home.jsp" %>
 <%@ include file="/include/nav.jsp" %>
 <p><br></p>
-<div class="container text-center">
-	<div class="modal-content">
-		<div class="modal-dialog">
-			<div class="container p-3">
+<div class="container">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="container p-3 border">
 				<form name="myForm" method="post" action="${ctxPath}/memberLoginOk.mbr" class="was-validated">
 					<h2>Member Login</h2>
 					<p>회원 아이디와 비밀번호를 입력해 주세요</p>
