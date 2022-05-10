@@ -111,21 +111,30 @@ public class MemberController extends HttpServlet {
 			command.execute(request, response);
 			viewPage += "/member/memberUpdatePwd.jsp";
 		}
-		
-		
-				
-//		//아이디 찾기
-//		else if (com.equals("")) {
-//			command = new ();
+		//
+		else if (com.equals("memberIdFindout")) {
+//			command = new MemberIdFindoutCommand();
 //			command.execute(request, response);
-//			viewPage += "/member/sha/.jsp";
-//		}
-//		//비밀번호 찾기
-//		else if (com.equals("")) {
-//			command = new ();
+			viewPage += "/member/sha/memberIdFindout.jsp";
+		}
+		//아이디 찾기
+		else if (com.equals("memberIdFindoutOk")) {
+			command = new MemberIdFindoutOkCommand();
+			command.execute(request, response);
+			viewPage += "/message/message.jsp";
+		}
+		//
+		else if (com.equals("memberPwdFindout")) {
+//			command = new MemberPwdFindoutCommand();
 //			command.execute(request, response);
-//			viewPage += "/member/sha/.jsp";
-//		}
+			viewPage += "/member/sha/memberPwdFindout.jsp";
+		}
+		//비밀번호 찾기
+		else if (com.equals("memberPwdFindoutOk")) {
+			command = new MemberPwdFindoutOkCommand();
+			command.execute(request, response);
+			viewPage += "/message/message.jsp";
+		}
 		
 		request.getRequestDispatcher(viewPage).forward(request, response);
 	}
