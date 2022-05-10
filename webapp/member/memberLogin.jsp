@@ -13,6 +13,16 @@
     	function fCheck() {
     		myForm.submit();
     	}
+    	//아이디 찾기
+    	function findoutId() {
+    		let url = '${ctxPath}/memberIdFindout.mbr';
+    		window.open(url,"idFindout","width=580px,height=250px");
+    	}
+    	//비밀번호 찾기
+    	function findoutPwd() {
+    		let url = '${ctxPath}/memberPwdFindout.mbr?mid=${mid}';
+    		window.open(url,"pwdFindout","width=580px,height=250px");
+    	}
     </script>
 </head>
 <body>
@@ -46,6 +56,7 @@
 					</div>
 					<div class="row" style="font-size:12px">
 						<span class="col"><input type="checkbox" name="idSave" checked />아이디 저장</span>
+						<!-- modal화면 -->
 						<span class="col"><a href="#">아이디 찾기</a> / <a href="#">비밀번호 찾기</a></span>
 					</div>
 				</form>
