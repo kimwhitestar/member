@@ -34,6 +34,10 @@
     <!--/member/회원관리 - 회원가입,회원탈퇴신청(30일임시삭제),회원탈퇴처리(회원DB삭제),회원로그인,회원로그아웃,개별회원조회,운영자회원용 전체회원목록조회-->
     else if (msg == 'memberLoginNo') msg = "로그인 실패~~";
     else if (msg == 'memberLoginOk') msg = "${val}님 로그인됬습니다";
+    else if (msg == 'memberIdFindoutNo') msg = "아이디 찾기 실패~~";
+    else if (msg == 'memberIdFindoutOk') msg = "회원님의 아이디를 찾았습니다";
+    else if (msg == 'memberPwdChangeNo') msg = "비밀번호 수정 실패~~";
+    else if (msg == 'memberPwdChangeOk') msg = "회원님의 비밀번호를 수정했습니다";
     else if (msg == 'memberLogoutOk') msg = "${val}님 로그아웃됬습니다";
     else if (msg == 'memberJoinOk') msg = "회원으로 가입됬습니다.";
     else if (msg == 'memberJoinNo') msg = "회원 가입 실패~~";
@@ -45,6 +49,15 @@
     else if (msg == 'memberDeletePractNo') msg = "회원 탈퇴 실패~~";
     else if (msg == 'memberDeleteOk') msg = "회원DB에서 회원을 삭제했습니다";
     else if (msg == 'memberDeleteNo') msg = "회원DB에서 회원 삭제 실패~~";
+    
+    <!--/board/게시판 - 게시판목록,글쓰기-->
+    else if (msg == 'boardInputOk') msg = "게시글이 등록됬습니다.";
+    else if (msg == 'boardInputNo') msg = "게시글 등록 실패~~";
+    else if (msg == 'boardUpdateOk') msg = "게시글이 수정됬습니다.";
+    else if (msg == 'boardUpdateNo') msg = "게시글 수정 실패~~";
+    else if (msg == 'boardDeleteOk') msg = "게시글이 삭제됬습니다.";
+    else if (msg == 'boardDeleteNo') msg = "게시글 삭제 실패~~";
+    
     
     <!--/admin/관리자 - 관리자로그인(인증), 관리자로그아웃 -->
     else if (msg == 'adminOk') msg = "관리자 인증됬습니다";
