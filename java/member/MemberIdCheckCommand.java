@@ -13,13 +13,16 @@ public class MemberIdCheckCommand implements MemberInterface {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mid = request.getParameter("mid");
+		request.setAttribute("mid", mid);
+		request.setAttribute("existIdYN", null);
 		MemberDAO dao = new MemberDAO();
 		if (null != mid) {
 			//isExist = true 아이디 중복
 			if (dao.memberIdCheck(mid)) {
 				request.setAttribute("existIdYN", "Y");
+			} else {
+				request.setAttribute("existIdYN", "N");
 			}
 		}
-		request.setAttribute("mid", mid);
 	}
 }

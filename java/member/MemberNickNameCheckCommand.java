@@ -13,15 +13,16 @@ public class MemberNickNameCheckCommand implements MemberInterface {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nickName = request.getParameter("nickName");
+		request.setAttribute("nickName", nickName);
+		request.setAttribute("existNickNameYN", null);
 		MemberDAO dao = new MemberDAO();
 		if (null != nickName) {
 			//isExist = true 닉네임 중복
 			if (dao.memberNickNameCheck(nickName)) {
 				request.setAttribute("existNickNameYN", "Y");
+			} else {
+				request.setAttribute("existNickNameYN", "N");
 			}
-		} else {
-			request.setAttribute("existNickNameYN", "N");
 		}
-		request.setAttribute("nickName", nickName);
 	}
 }
