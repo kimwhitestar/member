@@ -34,8 +34,8 @@
 		<div class="modal-content">
 			<div class="container p-3 border">
 				<form name="loginForm" method="post" action="${ctxPath}/memberLoginOk.mbr" class="was-validated">
-					<h2>Member Login</h2>
-					<p>회원 아이디와 비밀번호를 입력해 주세요</p>
+					<h2 class="text-center">Member Login</h2>
+					<p class="text-center">회원 아이디와 비밀번호를 입력해 주세요</p>
 					<div class="form-group">
 						<label for="mid">아이디 : </label>
 						<input type="text" class="form-control" name="mid" id="mid" value="${mid}" placeholder="아이디를 입력하세요." required autofocus/>
@@ -48,16 +48,16 @@
 						<div class="valid-feedback"></div>
 						<div class="invalid-feedback">비밀번호는 필수 입력사항입니다.</div>
 					</div>
-					<div class="form-group">
+					<div class="form-group text-center">
 						<button type="button" class="btn btn-secondary btn-sm" onclick="fCheck()">로그인</button> &nbsp;
 						<button type="reset" class="btn btn-secondary btn-sm">다시작성</button> &nbsp;
 						<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='${ctxPath}/';">돌아가기</button> &nbsp;
 						<button type="button" class="btn btn-secondary btn-sm" onclick="location.href='${ctxPath}/memberJoin.mbr';">회원가입</button>
 					</div>
 					<div class="row" style="font-size:12px">
-						<span class="col"><input type="checkbox" name="idSave" checked />아이디 저장</span>
+						<span class="col text-left"><input type="checkbox" name="idSave" checked />아이디 저장</span>
 						<!-- modal화면 -->
-						<span class="col"><a href="javascript:findoutId();">아이디 찾기</a> / <a href="javascript:changePwd();">비밀번호 찾기</a></span>
+						<span class="col text-right"><a href="javascript:findoutId();">아이디 찾기</a> / <a href="javascript:changePwd();">비밀번호 찾기</a></span>
 					</div>
 				</form>
 			</div>
