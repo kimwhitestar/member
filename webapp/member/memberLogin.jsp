@@ -11,17 +11,17 @@
     <script>
     	'use strict';
     	function fCheck() {
-    		myForm.submit();
+    		loginForm.submit();
     	}
     	//아이디 찾기
     	function findoutId() {
     		let url = '${ctxPath}/memberIdFindout.mbr';
-    		window.open(url,"idFindout","width=580px,height=250px");
+    		window.open(url,"idFindout","width=580px,height=380px");
     	}
     	//비밀번호 찾기
-    	function findoutPwd() {
-    		let url = '${ctxPath}/memberPwdFindout.mbr?mid=${mid}';
-    		window.open(url,"pwdFindout","width=580px,height=250px");
+    	function changePwd() {
+    		let url = '${ctxPath}/memberPwdChange.mbr';
+    		window.open(url,"pwdFindout","width=580px,height=600px");
     	}
     </script>
 </head>
@@ -33,7 +33,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="container p-3 border">
-				<form name="myForm" method="post" action="${ctxPath}/memberLoginOk.mbr" class="was-validated">
+				<form name="loginForm" method="post" action="${ctxPath}/memberLoginOk.mbr" class="was-validated">
 					<h2>Member Login</h2>
 					<p>회원 아이디와 비밀번호를 입력해 주세요</p>
 					<div class="form-group">
@@ -57,7 +57,7 @@
 					<div class="row" style="font-size:12px">
 						<span class="col"><input type="checkbox" name="idSave" checked />아이디 저장</span>
 						<!-- modal화면 -->
-						<span class="col"><a href="#">아이디 찾기</a> / <a href="#">비밀번호 찾기</a></span>
+						<span class="col"><a href="javascript:findoutId();">아이디 찾기</a> / <a href="javascript:changePwd();">비밀번호 찾기</a></span>
 					</div>
 				</form>
 			</div>
