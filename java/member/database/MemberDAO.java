@@ -110,23 +110,34 @@ public class MemberDAO {
 		return vos;
 	}
 	
-	// 로그인
+	// --------------------------------------------------
+	// 로그인 - 로그인 성공시 처리는 아래 update함수에서 처리 <계속>
+	// --------------------------------------------------
+	// 1. 오늘방문횟수 1회씩 증가 - login
+	// 2. 전체방문횟수 1회씩 증가 - login
+	// 3. 회원가입포인트(최초100-insert시 db default 증가, 방문시마다 1포인트씩 증가, 1일 10회 이하) - login
+	// --------------------------------------------------
 	public MemberVO searchMemberLogin(String mid, String pwd) {
 		try {
-			sql = "select * from member where mid = ? and pwd = ? and userDel = 'No'";
+			sql = "select *, (select levelName from memberlevel where level = member.level) as levelName "
+					+ "from member "
+					+ "where mid = ? and pwd = ? and userDel = 'No'";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
-			pstmt.setString(2, pwd);
+			pstmt.setString(2, new SecurityUtil().encryptSHA256(pwd));//비밀번호 암호화 처리
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
+			if (rs.next()) { //1개 검색된 ResultSet DTO의 레코드로 이동 
 				vo = new MemberVO();
 				vo.setIdx(rs.getInt("idx"));
 				vo.setMid(rs.getString("mid"));
-				vo.setNickName(rs.getString("nickName"));
 				vo.setLevel(rs.getInt("level"));
+				vo.setLevelName(rs.getString("levelName"));
+				vo.setName(rs.getString("name"));
+				vo.setNickName(rs.getString("nickName"));
 				vo.setLastDate(rs.getString("lastDate"));
-			} else {
-				vo = null;
+				vo.setTodayCnt(rs.getInt("todayCnt"));
+				vo.setVisitCnt(rs.getInt("visitCnt"));
+				vo.setPoint(rs.getInt("point"));
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL 에러 : " + e.getMessage());
@@ -174,6 +185,23 @@ public class MemberDAO {
 		int res = 0;
 		try {
 			sql = "update member set visitCnt = visitCnt+1, todayCnt = todayCnt+1, lastDate=now() where idx = ? and mid = ? and userDel = 'No' ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1 , idx);
+			pstmt.setString(2 , mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+		}
+		return res;
+	}
+	
+	//마지막방문일과 오늘방문일(로그인날짜)를 비교해서 다르면, 오늘방문횟수 = 0(초기화)
+	public int updateTodayCnt(int idx, String mid) {
+		int res = 0;
+		try {
+			sql = "update member set todayCnt = 0 where idx = ? and mid = ? and userDel = 'No' ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1 , idx);
 			pstmt.setString(2 , mid);

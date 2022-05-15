@@ -19,14 +19,13 @@ public class MemberVO {
 	private String userInfo;
 	private String userDel;
 	private int point;
-	private int level;
+	private int level;//회원등급코드
+	private String levelName;//회원등급명
 	private int visitCnt;
 	private String startDate;
 	private String lastDate;
 	private int todayCnt;
-	private String strLevel; //회원등급명 <- levelName으로 변경
 	private int overDaysUserDel; //회원삭제신청 경과일(30일 경과시 회원탈퇴처리)
-	
 	public int getIdx() {
 		return idx;
 	}
@@ -141,6 +140,12 @@ public class MemberVO {
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	public String getLevelName() {
+		return levelName;
+	}
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
+	}
 	public int getVisitCnt() {
 		return visitCnt;
 	}
@@ -165,12 +170,6 @@ public class MemberVO {
 	public void setTodayCnt(int todayCnt) {
 		this.todayCnt = todayCnt;
 	}
-	public String getStrLevel() {
-		return strLevel;
-	}
-	public void setStrLevel(String strLevel) {
-		this.strLevel = strLevel;
-	}
 	public int getOverDaysUserDel() {
 		return overDaysUserDel;
 	}
@@ -182,8 +181,8 @@ public class MemberVO {
 		return "MemberVO [idx=" + idx + ", mid=" + mid + ", pwd=" + pwd + ", nickName=" + nickName + ", name=" + name
 				+ ", gender=" + gender + ", birthday=" + birthday + ", tel=" + tel + ", address=" + address + ", email=" + email
 				+ ", homepage=" + homepage + ", job=" + job + ", hobby=" + hobby + ", photo=" + photo + ", content=" + content
-				+ ", userInfo=" + userInfo + ", userDel=" + userDel + ", point=" + point + ", level=" + level + ", visitCnt="
-				+ visitCnt + ", startDate=" + startDate + ", lastDate=" + lastDate + ", todayCnt=" + todayCnt + ", strLevel="
-				+ strLevel + ", overDaysUserDel=" + overDaysUserDel + "]";
+				+ ", userInfo=" + userInfo + ", userDel=" + userDel + ", point=" + point + ", level=" + level + ", levelName="
+				+ levelName + ", visitCnt=" + visitCnt + ", startDate=" + startDate + ", lastDate=" + lastDate + ", todayCnt="
+				+ todayCnt + ", overDaysUserDel=" + overDaysUserDel + "]";
 	}
 }
