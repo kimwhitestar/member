@@ -31,6 +31,7 @@ create table member (
 	on delete restrict								/* 원본테이블에서의 pk삭제금지 */
 );
 
+desc member;
 --update member set level = 0 where mid='admin'
 --update member set level = 3 where mid='pkl1'
 --update member set email = 'pkl1@naver.com' where mid='pkl1'
