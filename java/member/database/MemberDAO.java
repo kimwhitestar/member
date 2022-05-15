@@ -109,7 +109,8 @@ public class MemberDAO {
 		}
 		return vos;
 	}
-
+	
+	// 로그인
 	public MemberVO searchMemberLogin(String mid, String pwd) {
 		try {
 			sql = "select * from member where mid = ? and pwd = ? and userDel = 'No'";
@@ -135,7 +136,56 @@ public class MemberDAO {
 		}
 		return vo;
 	}
+
+	// --------------------------------------------------
+	// 로그인 성공시 처리 내용
+	// --------------------------------------------------
+	// 1. 오늘방문횟수 1회씩 증가 - login
+	// 2. 전체방문횟수 1회씩 증가 - login
+	// 3. 회원가입포인트(최초100-insert시 db default 증가, 방문시마다 1포인트씩 증가, 1일 10회 이하) - login
+	// --------------------------------------------------
+	// 로그인 성공시 처리 내용 3. 포인트 1포인트씩 증가 - 로그인시 마다 1 포인트씩 증가(1일 10회 이하 조건은 세션 처리) 
+	public int updatePoint(int idx, String mid) {
+		int res = 0;
+		try {
+			sql = "update member set point = point+1 where idx = ? and mid = ? and userDel = 'No' ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1 , idx);
+			pstmt.setString(2 , mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+		}
+		return res;
+	}
 	
+	// --------------------------------------------------
+	// 로그인 성공시 처리 내용
+	// --------------------------------------------------
+	// 1. 오늘방문횟수 1회씩 증가 - login
+	// 2. 전체방문횟수 1회씩 증가 - login
+	// 3. 회원가입포인트(최초100-insert시 db default 증가, 방문시마다 1포인트씩 증가, 1일 10회 이하) - login
+	// --------------------------------------------------
+	// 로그인 성공시 처리 내용 1. 오늘방문횟수 1회씩 증가 - login
+	// 로그인 성공시 처리 내용 2. 전체방문횟수 1회씩 증가 - login
+	public int updateVisitCntAndTodayCnt(int idx, String mid) {
+		int res = 0;
+		try {
+			sql = "update member set visitCnt = visitCnt+1, todayCnt = todayCnt+1, lastDate=now() where idx = ? and mid = ? and userDel = 'No' ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1 , idx);
+			pstmt.setString(2 , mid);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+		}
+		return res;
+	}
+
 	//회원의 아이디 찾기
 	public String searchMid(String email, String pwd) {
 		String mid = null;
@@ -253,7 +303,7 @@ public class MemberDAO {
 		}
 		return isExist;
 	}
-
+	
 	//이메일 체크
 	public boolean memberEmailCheck(String email) {
 		boolean isExist = false;
@@ -271,7 +321,8 @@ public class MemberDAO {
 		}
 		return isExist;
 	}
-
+	
+	//개별회원등록 - 가입포인트 100은 db에서 default 증가
 	public int insert(MemberVO vo) {
 		int res = 0;
 		try {
@@ -301,7 +352,7 @@ public class MemberDAO {
 		}
 		return res;
 	}
-
+	
 	//개별회원정보수정
 	public int update(MemberVO vo) {
 		int res = 0;
@@ -336,40 +387,6 @@ public class MemberDAO {
 		return res;
 	}
 	
-	//오늘방문카운트(todayCnt) - 초기값 : 0
-	public int updateTodayCnt(int idx, String mid) {
-		int res = 0;
-		try {
-			sql = "update member set todayCnt = 0 where idx = ? and mid = ? and userDel = 'No' ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1 , idx);
-			pstmt.setString(2 , mid);
-			res = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("SQL 에러 : " + e.getMessage());
-		} finally {
-			instance.pstmtClose();
-		}
-		return res;
-	}
-	
-	//방문수, 오늘방문수, 포인트 증가
-	public int updateVisitCntAndTodayCntAndPoint(int idx, String mid) {
-		int res = 0;
-		try {
-			sql = "update member set point = point+1, visitCnt = visitCnt+1, todayCnt = todayCnt+1, lastDate=now() where idx = ? and mid = ? and userDel = 'No' ";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1 , idx);
-			pstmt.setString(2 , mid);
-			res = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("SQL 에러 : " + e.getMessage());
-		} finally {
-			instance.pstmtClose();
-		}
-		return res;
-	}
-
 	//개별회원탈퇴 - 30일 회원정보유지(userDel=OK(회원탈퇴), lastDate=오늘(탈퇴날짜) 수정)
 	public int updateUserDel(int idx, String mid) {
 		int res = 0;
