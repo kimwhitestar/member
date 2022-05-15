@@ -11,7 +11,6 @@
     <style></style>
     <script>
     	'use strict';
-    	
     </script>
 </head>
 <body>
@@ -22,16 +21,16 @@
 	<h2>회 원 전 용 방</h2>
 	<hr/>
 	<p><font color="blue">${sNickName}</font> 님 로그인 중입니다.</p>
-	<p>현재 <font color="red">${strLevel}</font> 입니다</p>
-	<p>누적 포인트 : <font color="blue">${point}</font> 점</p>
-	<p>최종 접속일 : <font color="blue">${fn:substring(lastDate, 0, 19)}</font> </p>
-	<p>총 방문횟수 : <font color="blue">${visitCnt}</font> 회</p>
-	<p>오늘 방문횟수 : <font color="blue">${todayCnt}</font> 회</p>
+	<p>현재 <font color="red">${sLevelName}</font> 입니다</p>
+	<p>누적 포인트 : <font color="blue">${sPoint}</font> 점</p>
+	<p>최종 접속일 : <font color="blue">${fn:substring(sLastDate, 0, 19)}</font> </p>
+	<p>총 방문횟수 : <font color="blue">${sVCnt}</font> 회</p>
+	<p>오늘 방문횟수 : <font color="blue">${sTodayVCnt}</font> 회</p>
 	<hr/>
 	<h4>활동내역</h4>
-	<p>방명록에 올린 글 수 : <font color="blue">${guestCnt}</font></p>
-	<p>게시판에 올린 글 수 : <font color="blue"></font></p>
-	<p>자료실에 올린 글 수 : <font color="blue"></font></p>
+	<p>방명록에 올린 글 수 : <font color="blue">${sGuWritingCnt}</font></p>
+	<p>게시판에 올린 글 수 : <font color="blue">${sBdWritingCnt}</font></p>
+	<p>자료실에 올린 글 수 : <font color="blue">${sPdsWritingCnt}</font></p>
 </div>
     <%@ include file="/include/footer.jsp" %>
 </body>
