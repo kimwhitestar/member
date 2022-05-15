@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import common.SecurityUtil;
 import conn.MysqlConn;
 
 public class MemberDAO {
@@ -17,8 +18,6 @@ public class MemberDAO {
 	private MemberVO vo = null;
 	private String sql = new String("");
 
-	public MemberDAO() {}
-	
 	//페이징 총 레코드건수//관리자의 경우 level=0, 관리자가 아닐 경우 level=99
 	public int totRecCnt(int level) {
 		int totRecCnt = 0;
@@ -40,10 +39,36 @@ public class MemberDAO {
 		}
 		return totRecCnt;
 	}
+	
+	//기긴별 조회 SQL 조건문 추가 - Interval 
+	private String makeIntervalSQL(char kindYmd, int recently, String columnName, boolean addWhere) {
+		String sqlInterval = null;
+		if ((0 < kindYmd 
+			&& ('Y' == kindYmd || 'M' == kindYmd || 'D' == kindYmd)) 
+			&& 0 < recently) {
+			String sqlIntervalDate = new String("interval ? ");
+			switch(kindYmd) {
+				case 'Y' : sqlIntervalDate += "year"; break;
+				case 'M' : sqlIntervalDate += "month"; break;
+				case 'D' : sqlIntervalDate += "day"; break;
+				default : break;
+			}
+			String sqlTerm = new String("date_sub(now(), " + sqlIntervalDate + ")");
+			if (addWhere)
+				sqlInterval = new String("Where " + sqlTerm + " <= " + columnName + " and " + columnName +" <= now() ");
+			else
+				sqlInterval = new String(sqlTerm + " <= " + columnName + " and " + columnName +" <= now() ");
+		} else {
+			sqlInterval = new String("");
+		}
+		return sqlInterval;
+	}
 	//관리자의 경우 level=0, 관리자가 아닐 경우 level=99
 	public List<MemberVO> searchMemberList(int level, int startIndexNo, int pageSize) {
 		List<MemberVO> vos = new ArrayList<>();
 		try {
+			int prepareIdx = 0;
+			String addPrepareSQL1 = makeIntervalSQL(kindYmd, recently, "vDate", true);
 			if (0 == level) { //관리자
 				sql = "select *, timestampdiff(day, lastDate, now()) as overDaysUserDel from member order by idx desc limit ?, ? ";
 			} else {
@@ -117,8 +142,45 @@ public class MemberDAO {
 		}
 		return vo;
 	}
+	
+	//회원의 아이디 찾기
+	public String searchMid(String email, String pwd) {
+		String mid = null;
+		try {
+			sql = "select mid from member where email = ? and pwd = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			pstmt.setString(2, new SecurityUtil().encryptSHA256(pwd));
+			rs = pstmt.executeQuery();
+			if (rs.next()) mid = rs.getString("mid");//회원의 아이디
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+			instance.rsClose();
+		}
+		return mid;	
+	}
 
-	//멤버회원 개별정보 취득
+	//회원의 비밀번호 수정
+	public int updatePwd(String mid, String email, String pwd) {
+		int res = 0;
+		try {
+			sql = "update member set pwd = ? where mid = ? and email = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1 , mid);
+			pstmt.setString(2 , email);
+			pstmt.setString(3 , new SecurityUtil().encryptSHA256(pwd));
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+		}
+		return res;
+	}
+
+	//회원 개별정보 취득
 	public MemberVO search(String sMid) {
 		try {
 			sql = "select * from member where mid = ? and userDel = 'No'";
@@ -162,7 +224,7 @@ public class MemberDAO {
 		return vo;
 	}
 
-	//아이디 중복 체크
+	//아이디 체크
 	public boolean memberIdCheck(String mid) {
 		boolean isExist = false;
 		try {
@@ -170,7 +232,7 @@ public class MemberDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mid);
 			rs = pstmt.executeQuery();
-			if (rs.next()) isExist = true;//아이디 중복
+			if (rs.next()) isExist = true;//아이디 존재
 		} catch (SQLException e) {
 			System.out.println("SQL 에러 : " + e.getMessage());
 		} finally {
@@ -180,7 +242,7 @@ public class MemberDAO {
 		return isExist;
 	}
 	
-	//닉네임 중복 체크
+	//닉네임 체크
 	public boolean memberNickNameCheck(String nickName) {
 		boolean isExist = false;
 		try {
@@ -188,7 +250,25 @@ public class MemberDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, nickName);
 			rs = pstmt.executeQuery();
-			if (rs.next()) isExist = true;//닉네임 중복
+			if (rs.next()) isExist = true;//닉네임 존재
+		} catch (SQLException e) {
+			System.out.println("SQL 에러 : " + e.getMessage());
+		} finally {
+			instance.pstmtClose();
+			instance.rsClose();
+		}
+		return isExist;
+	}
+
+	//이메일 체크
+	public boolean memberEmailCheck(String email) {
+		boolean isExist = false;
+		try {
+			sql = "select email from member where email = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+			if (rs.next()) isExist = true;//이메일 존재
 		} catch (SQLException e) {
 			System.out.println("SQL 에러 : " + e.getMessage());
 		} finally {
@@ -340,4 +420,5 @@ public class MemberDAO {
 		}
 		return res;
 	}
+
 }

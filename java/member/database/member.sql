@@ -2,7 +2,7 @@ show tables;
 --drop table member;
 create table member (
 	idx 	int not null auto_increment,/*회원 고유번호*/
-	mid		varchar(20) not null,		/*회원 아이디(중복불가)*/
+	mid		varchar(20) not null,		/*회원 아이디(중복불가, 회원탈퇴 1달 뒤 동일아이디 허가(선생님 수업용)*/
 	pwd 	varchar(100) not null,		/*비밀번호(암호화)*/
 	nickName varchar(20) not null,		/*별명(중복불가)*/
 	name	varchar(20) not null,		/*회원 성명*/
@@ -25,21 +25,30 @@ create table member (
 	lastDate	datetime default now(), /*마지막접속일*/
 	todayCnt	int default 0,			/*오늘 방문한 횟수*/
 
-	primary key(idx, mid)
+	primary key(idx, mid),
+	foreign key(level) references memberlevel(level)/* memberlevel테이블의 level pk컬럼을 외래키로 설정 */
+	on update cascade								/* 원본테이블에서의 pk변경에 영향받음 */
+	on delete restrict								/* 원본테이블에서의 pk삭제금지 */
 );
 
-insert into member values (default, 'admin', '1234', '관리자', '박김이', default, default, '010-1234-1234', '충북 청주시 서원구 장전로51', 
-'admin@abc.com', 'abc.com/admin', '프리랜서', '독서/음악/영화', default, '관리자입니다', default, default, default, default, default, default, default, default );
-insert into member values (default, 'pkl1', '1234', '박김이1', '박김이', default, default, '02-123-1234', '', 
-'pkl1@nambu.co.kr', 'nambu.co.kr/pkl1', '사무원', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
-insert into member values (default, 'pkl1', '1234', '박김이2', '박김이', default, default, '042-123-1234', '서울특별시 강남구 남부터미널로1', 
-'pkl2@nambu.co.kr', 'nambu.co.kr/pkl2', '사무원', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
-insert into member values (default, 'pkl1', '1234', '박김이3', '박김이', default, default, '052-1234-1234', '', 
-'pkl3@nambu.co.kr', 'nambu.co.kr/pkl3', '사무원', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
-insert into member values (default, 'pkl1', '1234', '박김이4', '박김이', default, default, '032-1234-1234', '', 
-'pkl4@nambu.co.kr', 'nambu.co.kr/pkl4', '사무원', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
-insert into member values (default, 'pkl1', '1234', '박김이5', '박김이', default, default, '02-1234-1234', '서울특별시 강남구 남부터미널로1', 
-'pkl5@nambu.co.kr', 'nambu.co.kr/pkl5', '사무원', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
+--update member set level = 0 where mid='admin'
+--update member set level = 3 where mid='pkl1'
+--update member set email = 'pkl1@naver.com' where mid='pkl1'
+--delete from member;
+insert into member values (default, 'admin', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '관리자', '박김이', default, default, '010-1234-1234', '충북 청주시 서원구 장전로51/주소2/주소3/주소4', 
+'admin@naver.com', 'naver.com/admin', '회사원', '독서/음악/영화', default, '관리자입니다', default, default, default, 0, default, default, default, default );
+insert into member values (default, 'pkl1', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '박김이1', '박김이', default, default, '02-123-1234', '', 
+'pkl1@nambu.co.kr', 'nambu.co.kr/pkl1', '학생', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
+insert into member values (default, 'pkl2', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '박김이2', '박김이', default, default, '042-123-1234', '서울특별시 강남구 남부터미널로1/주소2/주소3/주소4', 
+'pkl2@nambu.co.kr', 'nambu.co.kr/pkl2', '학생', '음악/영화', default, '박김이입니다', default, default, default, default, default, default, default, default );
+insert into member values (default, 'pkl3', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '박김이3', '박김이', default, default, '062-1234-1234', '', 
+'pkl3@nambu.co.kr', 'nambu.co.kr/pkl3', '학생', '독서/영화', default, '박김이입니다', default, default, default, default, default, default, default, default );
+insert into member values (default, 'pkl4', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '박김이4', '박김이', default, default, '031-1234-1234', '경기도 성남구 성남로1/주소2/주소3/주소4', 
+'pkl4@nambu.co.kr', 'nambu.co.kr/pkl4', '학생', '음악', default, '박김이입니다', default, default, default, default, default, default, default, default );
+insert into member values (default, 'pkl5', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '박김이5', '박김이', default, default, '02-1234-1234', '서울특별시 강남구 남부터미널로1/주소2/주소3/주소4', 
+'pkl5@nambu.co.kr', 'nambu.co.kr/pkl5', '학생', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
+insert into member values (default, 'pkl6', '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4', '박김이6', '박김이', default, default, '02-1234-1234', '서울특별시 강남구 남부터미널로1/주소2/주소3/주소4', 
+'pkl6@nambu.co.kr', 'nambu.co.kr/pkl5', '기타', '독서/수영', default, '박김이입니다', default, default, default, default, default, default, default, default );
 
 select * from member;
 select *, timestampdiff(day, lastDate, now()) as overDaysUserDel from member order by idx desc;
@@ -60,3 +69,9 @@ select
 	(select timestampdiff(minute, '2022-03-01 10:10:10', '2022-04-25 12:31:50')) minute,
 	(select timestampdiff(second, '2022-03-01 10:10:10', '2022-04-25 12:31:50')) second
 */
+
+select * from member where date_sub(now(), interval 1 week) <= startDate and startDate <= now() 
+select * from member where userInfo = '공개';
+select *, timestampdiff(day, lastDate, now()) as overDaysUserDel from member;
+
+select mid from member where email = 'pkl1@naver.com' and pwd = '03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4' 
