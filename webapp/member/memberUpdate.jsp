@@ -166,7 +166,7 @@
     </div>
     <div class="form-group">
 		<label for="name">성명 :</label>
-		<input type="text" class="form-control" id="name" name="name" value="${vo.name}" required />
+		<input type="text" class="form-control" id="name" name="name" value="${sName}" required />
 		<div id="nameValid" class="valid-feedback"></div>
 		<div id="nameInvalid" class="invalid-feedback">성명은 필수 입력사항입니다.</div>
     </div>
@@ -319,7 +319,7 @@
     </div>
     <button type="button" class="btn btn-secondary" onclick="fCheck()">회원정보수정</button>
     <button type="reset" class="btn btn-secondary">다시작성</button>
-    <button type="button" class="btn btn-secondary" onclick="location.href='${ctp}/memLogin.mem';">돌아가기</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='${ctxPath}/memberMain.mem';">확인</button>
 	<input type="hidden" name="photo" />
   </form>
   <p><br/></p>

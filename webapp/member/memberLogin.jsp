@@ -56,7 +56,6 @@
 					</div>
 					<div class="row" style="font-size:12px">
 						<span class="col text-left"><input type="checkbox" name="idSave" checked />아이디 저장</span>
-						<!-- modal화면 -->
 						<span class="col text-right"><a href="javascript:findoutId();">아이디 찾기</a> / <a href="javascript:changePwd();">비밀번호 찾기</a></span>
 					</div>
 				</form>
