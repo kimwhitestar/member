@@ -1,6 +1,0 @@
-1. session처리
-관리자 : all
-정회원 : guest, board, pds 
-준회원(가입자) : guest, board, 
-
-
