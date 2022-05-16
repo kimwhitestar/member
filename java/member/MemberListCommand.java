@@ -11,6 +11,7 @@ import common.Paging;
 import member.database.MemberDAO;
 import member.database.MemberVO;
 
+//운영자회원용 MemberListCommand
 public class MemberListCommand implements MemberInterface {
 
 	@Override
@@ -19,7 +20,7 @@ public class MemberListCommand implements MemberInterface {
 		
 		//페이징 설정하기 
 		int pageNo = request.getParameter("pageNo")==null ? 1 : Integer.parseInt(request.getParameter("pageNo"));//현 페이지
-		int totalRecordSize = dao.totRecCnt(99);//목록의 총 레코드 갯수
+		int totalRecordSize = dao.memberListTotRecCnt((char)0, 0);//목록의 총 레코드 갯수
 		int pagingRecordSize = 5;//각 페이징할 목록의 레코드 갯수
 		int blockingSize = 3;//페이징할 블록 갯수
 		
@@ -29,7 +30,7 @@ public class MemberListCommand implements MemberInterface {
 		
 		//한 페이징에 표시할 레코드 검색
 		List<MemberVO> vos = dao.searchMemberList(
-				99, paging.getStartIndexNo(), paging.getPageSize());//관리자의 경우 level=0, 관리자가 아닐 경우 level=99
+				(char)0, 0, paging.getStartIndexNo(), paging.getPageSize());
 		
 		request.setAttribute("vos", vos);
 		//request.setAttribute("curScrStartNo", vos.size());

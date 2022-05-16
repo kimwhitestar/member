@@ -14,11 +14,12 @@ public class MemberDeletePractCommand implements MemberInterface {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String sMid = (String)session.getAttribute("sMid");
+		int sIdx = (int) session.getAttribute("sIdx");
+		String sMid = (String) session.getAttribute("sMid");
 		
 		MemberDAO dao = new MemberDAO();
 		//회원탈퇴 - 1달간은 회원정보유지, userDel만 OK(회원탈퇴)로 수정
-		int res = dao.updateUserDel(sMid);
+		int res = dao.updateUserDel(sIdx, sMid);
 		
 		if (1 == res) {
 			request.setAttribute("msg", "memberDeletePractOk");
@@ -26,7 +27,6 @@ public class MemberDeletePractCommand implements MemberInterface {
 		} else {
 			request.setAttribute("msg", "memberDeletePractNo");
 			request.setAttribute("url", request.getContextPath()+"/memberMain.mbr");
-			
 		}
 	}
 }

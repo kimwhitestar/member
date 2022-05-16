@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import conn.SecurityUtil;
 import member.database.MemberDAO;
 
 public class MemberPwdChangeOkCommand implements MemberInterface {

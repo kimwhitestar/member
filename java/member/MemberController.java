@@ -49,13 +49,13 @@ public class MemberController extends HttpServlet {
 			command.execute(request, response);
 			viewPage = "/message/message.jsp";
 		}
-		//비밀번호 찾기
+		//비밀번호 찾기/수정
 		else if (com.equals("memberPwdChange")) {
-//			command = new MemberPwdFindoutCommand();
+//			command = new MemberPwdChangeCommand();
 //			command.execute(request, response);
 			viewPage += "/member/memberPwdChange.jsp";
 		}
-		//비밀번호 찾기Ok
+		//비밀번호 찾기/수정Ok
 		else if (com.equals("memberPwdChangeOk")) {
 			command = new MemberPwdChangeOkCommand();
 			command.execute(request, response);
@@ -103,7 +103,7 @@ public class MemberController extends HttpServlet {
 		else if (com.equals("memberLogout")) {
 			command = new MemberLogoutCommand();
 			command.execute(request, response);
-			viewPage += "/member/memberLogout.jsp";
+			viewPage = "/message/message.jsp";
 		}
 		//회원목록(공개회원)
 		else if (com.equals("memberList")) {
@@ -128,12 +128,6 @@ public class MemberController extends HttpServlet {
 			command = new MemberUpdateOkCommand();
 			command.execute(request, response);
 			viewPage = "/message/message.jsp";
-		}
-		//회원비밀번호수정
-		else if (com.equals("memberUpdatePwd")) {
-			command = new MemberUpdatePwdCommand();
-			command.execute(request, response);
-			viewPage += "/member/memberUpdatePwd.jsp";
 		}
 		
 		request.getRequestDispatcher(viewPage).forward(request, response);

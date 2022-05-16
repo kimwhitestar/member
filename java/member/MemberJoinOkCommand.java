@@ -6,7 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import conn.SecurityUtil;
+import common.SecurityUtil;
 import member.database.MemberDAO;
 import member.database.MemberVO;
 
@@ -30,26 +30,6 @@ public class MemberJoinOkCommand implements MemberInterface {
 		String content = request.getParameter("content");
 		String userInfo = request.getParameter("userInfo");
 		String photo = request.getParameter("photo");
-		
-		if (null == mid        
-			|| null == pwd        
-			|| null == nickName   
-			|| null == name       
-			|| null == gender     
-			|| null == birthday   
-			|| null == telNo      
-			|| null == address    
-			|| null == email      
-			|| null == homepage   
-			|| null == job        
-			|| null == checkedHobbies 
-			|| null == content    
-			|| null == userInfo   
-			|| null == photo    ) {
-			  
-			//되돌아가기
-			return;
-		}
 		
 		//전화번호 파라미터 연결체크(DB저장을 위해 재체크) : 02-999-9999 or 010-9999-9999)
 		//인터넷연결등의 이유로 파라미터가 정확히 넘어오지 못하거나, 화면 유효성체크 오류로 넘어온 유효하지 않은 파라미터는 유효한 data?를 위해 공란처리?
@@ -90,8 +70,6 @@ public class MemberJoinOkCommand implements MemberInterface {
 		else {
 			fileSystemName = photo;//웹서버(톰캣)에 실제로 저장되는 화일명
 		}
-		
-		//DB에 저장될 각각의 필드길이 체크(화면에서)...
 		
 		//DB 저장
 		MemberVO vo = new MemberVO();

@@ -15,10 +15,11 @@ public class MemberUpdateCommand implements MemberInterface {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		int sIdx = (int) session.getAttribute("sIdx");
 		String sMid = (String) session.getAttribute("sMid");
 		
-		MemberDAO dao = new MemberDAO();
-		MemberVO vo = dao.search(sMid);
+		//개별회원정보 조회
+		MemberVO vo = new MemberDAO().search(sIdx, sMid);
 		
 		//Form에 출력을 위한 분리작업
 		//Email 분리(@)
@@ -39,7 +40,6 @@ public class MemberUpdateCommand implements MemberInterface {
 		request.setAttribute("detailAddress", "테스트주소2");
 		request.setAttribute("extraAddress", "테스트주소3");
 		//취미 분리(/)
-		
 		request.setAttribute("vo", vo);
 	}
 }

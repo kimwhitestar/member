@@ -17,6 +17,6 @@ public class MemberLogoutCommand implements MemberInterface {
 		session.invalidate();//세션삭제
 		request.setAttribute("msg", "memberLogoutOk");
 		request.setAttribute("url", request.getContextPath() + "/memberLogin.mbr");
-		request.setAttribute("val", nickName);
+		request.setAttribute("nickName", nickName);
 	}
 }
