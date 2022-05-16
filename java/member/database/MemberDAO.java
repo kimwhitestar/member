@@ -65,7 +65,7 @@ public class MemberDAO {
 		try {
 			int prepareIdx = 0;
 			String addPrepareSQL1 = makeIntervalSQL(kindYmd, term, "startDate");
-			sql = "select * from member where userDel = 'NO' and userInfo = '공개' ";
+			sql = "select * , timestampdiff(day, lastDate, now()) as overDaysUserDel from member where userDel = 'NO' and userInfo = '공개' ";
 			if(0 < addPrepareSQL1.length()) sql = sql + addPrepareSQL1;
 			sql += "order by idx desc limit ?, ? ";
 			pstmt = conn.prepareStatement(sql);
@@ -159,7 +159,7 @@ public class MemberDAO {
 	public int updatePoint(int idx, String mid) {
 		int res = 0;
 		try {
-			sql = "update member set point = point+1 where idx = ? and mid = ? and userDel = 'No' ";
+			sql = "update member set point = point+5 where idx = ? and mid = ? and userDel = 'No' ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1 , idx);
 			pstmt.setString(2 , mid);
