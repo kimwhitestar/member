@@ -10,7 +10,7 @@ System.out.println("########### sLevel= "+ sLevel);
 	function checkMemberDelete() {
 		if (confirm('정말 탈퇴하겠습니까?')) {
 			if (confirm('탈퇴 후 1개월간은 같은 아이디로 재가입할 수 없습니다.\n탈퇴하겠습니까?')) 
-				location.href = '<%=request.getContextPath()%>+"/memberDeletePract.mbr"';
+				location.href = "<%=request.getContextPath()%>/memberDeletePract.mbr";
 		}
 	}
 </script>
@@ -33,7 +33,7 @@ System.out.println("########### sLevel= "+ sLevel);
 <%	} %>
 <%	if (0 == sLevel || (1 < sLevel && 4 >= sLevel)) { //0관리자와 회원전용(2정회원,3우수회원,4운영자) %>
       <li class="nav-item font-weight-bold">
-        <a class="nav-link" href="#">PDS</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/pdsList.pds">PDS</a>
       </li>
 <%	} %>
       <li class="nav-item font-weight-bold">
@@ -41,6 +41,8 @@ System.out.println("########### sLevel= "+ sLevel);
         <div class="dropdown">
 		    <div class="dropdown-menu">
 <%	if (99 != sLevel ) { //비회원 열람 가능 %>
+		      <a class="dropdown-item" href="<%=request.getContextPath()%>/schedule/calendar.cld">달력</a>
+		      <a class="dropdown-item" href="<%=request.getContextPath()%>/schedule/calendar2.cld">달력</a>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/study1/urlMapping">URL(Controller) 디렉토리패턴</a>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/urlMapping.url">확장자(Controller) 디렉토리패턴</a>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/urlMapping.um">확장자(FrontController) 디렉토리패턴</a>
@@ -54,6 +56,7 @@ System.out.println("########### sLevel= "+ sLevel);
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/ajaxIdSearch?mid=user1">ajax1연습-동적ajax는 URL패턴사용(dispathcer로 jsp설정없음)</a>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/ajaxIdSearch2?mid=user1">ajax2연습-동적ajax는 URL패턴사용(dispathcer로 jsp설정없음)</a>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/ajaxIdSearch3?mid=user1">ajax3연습-동적ajax는 URL패턴사용(dispathcer로 jsp설정없음)</a>
+		      <a class="dropdown-item" href="<%=request.getContextPath()%>/study2/upload1.st">Ajax2 연습-싱글화일전송
 <%	} %>
 		    </div>
 		</div>
@@ -84,7 +87,7 @@ System.out.println("########### sLevel= "+ sLevel);
 		<%	} %>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/memberUpdate.mbr">회원정보변경</a>
 		      <a class="dropdown-item" href="<%=request.getContextPath()%>/memberUpdatePwd.mbr">회원비밀번호변경</a>
-		      <a class="dropdown-item" href="javascript:checkMemberDelete()">회원탈퇴</a>
+		      <a class="dropdown-item" href="javascript:checkMemberDelete();">회원탈퇴</a>
 		    </div>
 		</div>
       </li>
