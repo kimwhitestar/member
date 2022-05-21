@@ -17,8 +17,6 @@
 	</style>
 	<script>
 	'use strict';
-	let idChkFlg = false;
-	let nickNameChkFlg = false;
 	
 	//아이디 중복 체크
 	function idCheck() {
@@ -32,26 +30,203 @@
 		window.open(url,"nickNameCheckWin","width=580px,height=200px");
 	}
 	
+	//DB에 저장될 각각의 필드길이 체크
+ 	function regexCheck() {
+		const regexMid = /^[a-zA-Z]+[0-9_+-.]*[a-zA-Z_+-.]*[0-9]([a-zA-Z0-9_+-.]*){20}$/g; //아이디체크(영문자1자리이상, 숫자나 특수기호 조합 2~20자리)
+        const regexPass = /([a-zA-Z][0-9][@#$%&!?^~*+-_.]|[0-9][a-zA-Z][@#$%&!?^~*+-_.]|[@#$%&!?^~*+-_.][a-zA-Z][0-9]|[@#$%&!?^~*+-_.][0-9][a-zA-Z])/g;//비밀번호체크(영문자,숫자,특수기호 @#$%&!?^~*+-_. 조합 3~20자리)
+        const regexNickName = /[가-힣a-zA-Z]{3,10}([0-9]*|[0-9])/g; //닉네임체크(한글or영문에 필요하면 숫자포함 조합 3~20자리)
+    	const regexName = /[가-힣a-zA-Z]{3,10}([0-9]*|[0-9])/g; //이름체크(한글or영문에 필요하면 숫자포함 조합 3~20자리)
+		const regexEmail = /^[a-zA-Z]{2}[0-9_+-.]*[a-zA-Z]([a-zA-Z0-9_+-.]*){25}$/g;//이메일체크(영문자으로 시작하여 특수기호 _+-. 또는 숫자 또는 문자 조합 3~25자리)
+        const regexTel2 = /\d{3,4}$/g; //전화번호2체크(숫자 3~4자리)
+		const regexTel3 = /\d{4}$/g; //전화번호3체크(숫자 4자리)
+        const regexDetailAddress = /[a-zA-Z0-9가-힣#-. ]{1,15}/g; //상세주소체크(문자or숫자or특수문자( .-#) 1~15자리)
+		const regexHomepage = /^(http(s)?:\/\/)[a-zA-Z0-9_+-.\/]/g; //홈페이지체크(영문자,숫자,특수문자(/_-.) 조합 50자리)
+		const regexContent = /^[a-zA-Z0-9가-힣]([ ]*|[@#$%^&!?]|[~()<>_*+-=]|[,.:;\/]){1,200}$/gm; //자기소개 체크(숫자,문자,특수문자체크(~!?@#$%^&*()<>_+=-,.:;/ ) 조합 200자리)
+		const regexFName = /[a-zA-Z0-9가-힣_-~()+][.](JPG|JPEG|GIF|jpg|jpeg|gif)$/g; //화일명 체크(문자,숫자,특수문자(~()<>_*+-) 50자리의 화일명과 .JPG 또는 .JPEG 또는 .GIF확장자만 가능합니다)
+		let regexFlag = true;
+		
+ 		//회원아이디 정규식 체크
+  		if ( ! $("#mid").val().match(regexMid) ) {
+ 			$("#mid").addClass("is-invalid");
+ 			$("#midInValid").addClass("is-invalid");
+ 			$("#midInValid").text("영문자로 시작하여 숫자1자리 이상 포함하는 영문,숫자,특수기호(_+-.)의 조합 2~20자리로 입력하세요");
+ 			$("#mid").focus();
+ 			regexFlag = false;
+ 		} else {
+ 			$("#mid").addClass("is-valid");
+ 			$("#midInValid").addClass("is-valid");
+ 			$("#midInValid").text("");
+ 			$("#pass").focus();
+ 		}
+  		//비밀번호 정규식 체크
+		if ( ! $("#pass").val().match(regexPass) ) {
+			$("#pass").addClass("is-invalid");
+			$("#passInvalid").addClass("is-invalid");
+			$("#passInvalid").text("영문자, 숫자, 특수기호(~!?@#$%^&*_+-.) 조합 3~20자리로 입력하세요");
+ 			$("#pass").focus();
+ 			regexFlag = false;
+		} else {
+			$("#pass").addClass("is-valid");
+			$("#passInvalid").addClass("is-valid");
+ 			$("#passInvalid").text("");
+			$("#nickName").focus();
+		}
+		//닉네임 정규식 체크
+		if ( ! $("#nickName").val().match(regexNickName) ) {
+			$("#nickName").addClass("is-invalid");
+			$("#nickNameInvalid").addClass("is-invalid");
+			$("#nickNameInvalid").text("한글 또는 영문 3자리 이상으로 필요하면 숫자 조합 3~20자리로 입력하세요");
+			$("#nickName").focus();
+ 			regexFlag = false;
+		} else {
+			$("#nickName").addClass("is-valid");
+			$("#nickNameInvalid").addClass("is-valid");
+			$("#nickNameInvalid").text("");
+			$("#name").focus();
+		}
+		 //이름 정규식 체크
+		if ( ! $("#name").val().match(regexName) ) {
+			$("#name").addClass("is-invalid");
+			$("#nameInvalid").addClass("is-invalid");
+			$("#nameInvalid").text("한글 또는 영문 3자리 이상으로 필요하면 숫자 조합 3~20자리로 입력하세요");
+			$("#name").focus();
+ 			regexFlag = false;
+		} else {
+			$("#name").addClass("is-valid");
+			$("#nameInvalid").addClass("is-valid");
+			$("#nameInvalid").text("");
+			$("#email1").focus();
+		}
+		//이메일 정규식 체크
+		if ( ! $("#email1").val().match(regexEmail) ) {
+			$("#email1").addClass("is-invalid");
+			$("#email1Invalid").addClass("is-invalid");
+			$("#email1Invalid").text("영문자 3자리 이상으로 필요하면 특수기호(_+-.), 숫자, 영문 조합 3~25자리로 입력하세요");
+			$("#email1").focus();
+ 			regexFlag = false;
+		} else {
+			$("#email1").addClass("is-valid");
+			$("#email1Invalid").addClass("is-valid");
+			$("#email1Invalid").text("");
+			$("#tel2").focus();
+		}
+ 		if ('' != $("#tel3").val()) {
+			//전화번호 정규식 체크
+			if ( ! $("#tel3").val().match(regexTel3) ) {
+				$("#tel3").addClass("is-invalid");
+				$("#tel3InValid").addClass("is-invalid");
+				$("#tel3InValid").text("숫자 4자리로 입력하세요");
+				$("#tel3").focus();
+	 			regexFlag = false;
+			} else {
+ 				$("#tel3").addClass("is-valid");
+				$("#tel3InValid").addClass("is-valid");
+				$("#tel3InValid").text('');
+			}
+		} 
+		if ('' != $("#tel2").val()) {
+			//전화번호 정규식 체크
+			if ( ! $("#tel2").val().match(regexTel2) ) {
+				$("#tel2").addClass("is-invalid");
+				$("#tel2InValid").addClass("is-invalid");
+				$("#tel2InValid").text("숫자 3자리~4자리로 입력하세요");
+				$("#tel2").focus();
+	 			regexFlag = false;
+			} else {
+				$("#tel2").addClass("is-valid");
+				$("#tel2InValid").addClass("is-valid");
+				$("#tel2InValid").text('');
+			}
+		}
+		//우편번호 공란 체크
+		if ( '' == $('#addressGroup input[name="postcode"]').val()
+			&& '' != $('#addressGroup input[name="detailAddress"]').val() ) {
+			$('#addressGroup input[name="detailAddress"]').addClass("is-invalid");
+			$("#detailAddressInValid").addClass("is-invalid");
+			$("#detailAddressInValid").text("주소는 우편번호찾기로 검색 후 입력하세요");
+			$('#addressGroup input[name="detailAddress"]').focus();
+ 			regexFlag = false;
+		} else {
+			$('#addressGroup input[name="detailAddress"]').addClass("is-valid");
+			$("#detailAddressInValid").addClass("is-valid");
+			$("#detailAddressInValid").text("");
+			$("#btnPostCode").focus();
+		}
+ 		if ( '' != $('#addressGroup input[name="postcode"]').val() 
+ 			&& '' != $('#addressGroup input[name="detailAddress"]').val() ) {
+			//상세주소 정규식 체크
+			if ( ! $('#addressGroup input[name="detailAddress"]').val().match(regexDetailAddress) ) {
+				$('#addressGroup input[name="detailAddress"]').addClass("is-invalid");
+				$("#detailAddressInValid").addClass("is-invalid");
+				$("#detailAddressInValid").text("문자, 숫자, 특수문자( .-#) 1~15자리로 입력하세요");
+				$('#addressGroup input[name="detailAddress"]').focus();
+	 			regexFlag = false;
+			} else {
+				$('#addressGroup input[name="detailAddress"]').addClass("is-valid");
+				$("#detailAddressInValid").addClass("is-valid");
+				$("#detailAddressInValid").text("");
+				$("#homepage").focus();
+			}
+		}
+		if ('' != $("#homepage").val() ) {
+			//홈페이지주소 정규식 체크
+			if ( ! $("#homepage").val().match(regexHomepage) ) {
+				$("#homepage").addClass("is-invalid");
+				$("#homepageInValid").addClass("is-invalid");
+				$("#homepageInValid").text("문자나 숫자나 특수문자(/_-.) 11~50자리로 입력하세요");
+				$("#homepage").focus();
+	 			regexFlag = false;
+			} else {
+				$("#homepage").addClass("is-valid");
+				$("#homepageInValid").addClass("is-valid");
+				$("#homepageInValid").text("");
+				$("#content").focus();
+			}
+		}
+ 		if ('' != $("#content").val()) {
+			//자기소개 정규식 체크
+			if ( ! $("#content").val().match(regexContent) ) {
+				$("#content").addClass("is-invalid");
+				$("#contentInValid").addClass("is-invalid");
+				$("#contentInValid").text("문자 1자리 이상으로 필요하면 숫자, 특수문자(~!?@#$%^&*()<>_+=-,.:;/ )의 조합 200자리로 입력하세요");
+				$("#content").focus();
+	 			regexFlag = false;
+			} else {
+				$("#content").addClass("is-valid");
+				$("#contentInValid").addClass("is-valid");
+				$("#contentInValid").text("");
+				$("#fName").focus();
+			}
+		}
+		if ('' != $("#fName").val().trim() ) {
+	 		//화일명 정규식 체크
+			if ( ! $("#fName").val().match(regexFName) ) {
+				$("#fName").addClass("is-invalid");
+				$("#fNameInValid").addClass("is-invalid");
+				$("#fNameInValid").text("문자,숫자,특수문자(_-~()+) 50자리의 화일명과 .jpg 또는 .jpeg 또는 .gif확장자만 가능합니다");
+				$("#fName").focus();
+	 			regexFlag = false;
+			} else {
+				$("#fName").addClass("is-valid");
+				$("#fNameInValid").addClass("is-valid");
+				$("#fNameInValid").text("");
+				$("#entry").focus();
+			}
+		}
+ 		if ( regexFlag ) return true;
+		else return false;
+	}
+	
 	//회원가입폼 파라미터 편집후 서버로 요청하기
- 	function editForm() {
- 		let mid = joinForm.mid.value;
-		let nickName = joinForm.nickName.value;
+ 	function editForm(flag) {
+		if (! flag) return;
 		
 		//생일 체크(18년 이전 출생일 부터 가능)
 		let birthday = joinForm.birthday.value;
 
-		let postcode = $('#addressGroup input[name="postcode"]').val();
-		let roadAddress = $('#addressGroup input[name="roadAddress"]').val();
-		if ((''==roadAddress && ''==postcode)
-			|| (''!=roadAddress && ''==postcode)) {
-			alert('우편번호찾기로 우편번호를 입력하세요');
-			//$('#addressGroup input[name="roadAddress"]').empty();
-			$("#btnPostCode").focus();
-		}
-		
 		//이메일 편집
 		$("#email").val($("#email1").val() + '@' + $('#emailGroup select[name="email2"] option:selected').val());
-		
+
 		//전화번호 편집
 		let tel2 = $('#telGroup input[name="tel2"]').val();
 		let tel3 = $('#telGroup input[name="tel3"]').val();
@@ -63,166 +238,35 @@
 		}
 		
 		//주소 편집
-		$("#address").val($('#addressGroup input[name="postcode"]').val() 
+ 		$("#address").val($('#addressGroup input[name="postcode"]').val() 
 			+ '/' + $('#addressGroup input[name="roadAddress"]').val() 
-			+ '/' + $('#addressGroup input[name="detailAddress"]').val() 
-			+ '/' + $('#addressGroup input[name="extraAddress"]').val()); //######## 지번 확인 필요  ############################################3
+			+ '/' + $('#addressGroup input[name="extraAddress"]').val()
+			+ '/' + $('#addressGroup input[name="detailAddress"]').val());
 		
-		//Homepage 편집
-//    	let homepage = $("#homepage").val();
-//   	let editHomepage = homepage;
-//		if (''!=homepage) {
-//	   		if (7 <= homepage.length) {
-//	   			editHomepage = homepage.substring(0, homepage.indexOf(':'));
-//	   			if (editHomepage == 'https' || editHomepage == 'http' ) {
-//	   				editHomepage = homepage.substring(homepage.indexOf('://')+3);
-//	   				homepage = editHomepage;
-//	   			}
-//	   		}
-//			document.getElementById("homepage").value = homepage;
-//		}
-
 		//취미 
         let arrHobby = [];
 		$('#hobbyGroup input[name="hobby"]:checked').each(function(idx, item){
 			arrHobby.push($(item).val());
         });
 		$("#checkedHobbies").val(arrHobby.join('/'));
-alert($("#checkedHobbies").val());
-// 		let arrHobby = joinForm.hobby;
-//		let hobby = '';
-//		let hobbyFlg = false;
-//		for (int i=0; i<hobby.length(); i++) {
-//			if (hobby[i].checked) {
-//				hobby += hobby[i].value + '/';
-//				hobbyFlg = true;
-//			}
-//		}
-// 		if (!hobbyFlg) {
-//			document.getElementById("hobbyEtc").checked = true;
-//			hobby = document.getElementById("hobbyEtc").value;
-//		} else {
-//			hobby = hobby.substring(0, hobby.lastIndexOf("/"));
-//		}
-//		joinForm.checkedHobbies.value = hobby;
-
 
 		//사진upload 체크
-		let fName = $("#fName").val();
-		let ext = fName.substring(fName.lastIndexOf(".")+1);//확장자
-		let uExt = ext.toUpperCase();
-		let maxSize = 1024 * 1024 * 2;//업로드 회원사진 최대용량 = 2MB
-		
-		//사진파일 체크
-		if (''==fName.trim()) {
+		if ('' == $("#fName").val().trim()) {
 			$("#photo").val('noimage');
-		}
-		else {
-alert('fName.size='+ $("#fName").files[0].size);
-			let fileSize = document.getElementById("fName").files[0].size;
-			if ('JPG'!=uExt && 'JPEG'!=uExt && 'GIF'!=uExt && 'PNG'!=uExt) {
-				alert("업로드 가능한 파일은 'jpg/jpeg/gif/png'파일입니다.");
+		} else {
+			let fName = $("#fName").val();
+			$("#photo").val(fName);
+			if (-1 < fName.indexOf(" ")) {
+				alert('화일명에는 공백을 사용할 수 없습니다');
 				$("#fName").focus();
+				return;
 			}
-			if (-1 != fName.indexOf(' ')) {
-				alert('업로드 파일명에 공백을 포함할 수 없습니다.');
-				$("#fName").focus();
-			}
+			let maxSize = 1024 * 1024 * 2;//업로드 회원사진 최대용량 = 2MB
+			let fileSize = $("#fName")[0].files[0].size;
 			if (maxSize < fileSize) {
 				alert('업로드 파일의 크기는 2MByte를 초과할 수 없습니다.');
 				$("#fName").focus();
-			}
-		}
-		joinForm.submit();
-	}
-	
-	//DB에 저장될 각각의 필드길이 체크
- 	function regexCheck() {
-		const regexMid = /^[a-zA-Z]+[0-9_+-.]*[a-zA-Z_+-.]*[0-9]([a-zA-Z0-9_+-.]*){20}$/g; //아이디체크(영문자1자리이상, 숫자나 특수기호 조합 2~20자리)
-        const regexPwd = /[a-zA-Z]+[0-9]+[~!?@#$%^&*_+-.]+|[0-9]+[a-zA-Z]+[~!?@#$%^&*_+-.]+/gm; //비밀번호체크(영문자,숫자,특수기호 ~!?@#$%^&*_+-. 조합 3~20자리)
-        const regexNickName = /[가-힣a-zA-Z]{3,10}([0-9]*|[0-9])/g; //닉네임체크(한글or영문에 필요하면 숫자포함 조합 3~20자리)
-    	const regexName = /[가-힣a-zA-Z]{3,10}([0-9]*|[0-9])/g; //이름체크(한글or영문에 필요하면 숫자포함 조합 3~20자리)
-        const regexEmail = /[a-zA-Z]{3,10}([a-zA-Z0-9_+-.]*|[a-zA-Z0-9_+-.])/g;//이메일체크(영문자 3자리이상으로 시작하여 특수기호 _+-. 또는 숫자 또는 문자 조합 25자리)
-		const regexTel2 = /\d{3,4}$/g; //전화번호2체크(숫자 3~4자리)
-		const regexTel3 = /\d{4}$/g; //전화번호3체크(숫자 4자리)
-        const regexDetailAddress = /[a-zA-Z0-9가-힣#-. ]{1,15}/g; //상세주소체크(문자or숫자or특수문자( .-#) 조합 1~15자리)
-//		const regexHomepage = /http(s:\/\/|:\/\/)[a-zA-Z0-Z.:/_-?=&]{11,12}/g; //홈페이지체크(영문자,숫자,특수문자(.:/_-?=&) 조합 50자리)
-		const regexContent = /[a-zA-Z0-9가-힣]{0,200}/gm; //자기소개 체크(숫자,문자,특수문자체크(~!?@#$%^&*()<>_+=-,.:;/ ) 조합 200자리)
-
-		//회원아이디 정규식 체크
-  		if ( ! $("#mid").val().match(regexMid) ) { 
- 			$("#midInValid").text("영문자로 시작하여 숫자1자리 이상 포함하는 영문,숫자,특수기호의 조합 2~20자리로 입력하세요");
- 			$("#mid").focus();
- 		} else {
- 			$("#pwd").focus();
- 		}
-		//비밀번호 정규식 체크
-		if ( ! $("#pwd").val().match(regexPwd) ) {
-			$("#pwdInValid").text("영문자, 숫자, 특수기호 ~!?@#$%^&*_+-.의 조합 3~20자리로 입력하세요");
-			$("#pwd").focus();
-		} else {
-			$("#nickName").focus();
-		}
-		//닉네임 정규식 체크
-		if ( ! $("#nickName").val().match(regexNickName) ) {
-			$("#nickName").text("한글 또는 영문에 필요하면 숫자까지 포함하여 3~20자리로 입력하세요");
-			$("#nickName").focus();
-		} else {
-			$("#name").focus();
-		}
-		//이름 정규식 체크
-		if ( ! $("#name").val().match(regexName) ) {
-			$("#name").text("한글 또는 영문에 필요하면 숫자까지 포함하여 3~20자리로 입력하세요");
-			$("#name").focus();
-		} else {
-			$("#email1").focus();
-		}
-		//이메일 정규식 체크
-		if ( ! $("#email1").val().match(regexEmail) ) {
-			$("#email1").text("영문자 3자리 이상으로 시작하여 특수기호 _+-. 또는 숫자 또는 문자 조합 4~25자리로 입력하세요");
-			$("#email1").focus();
-		} else {
-			$("#tel2").focus();
-		}
-		if ('' != $("#tel2").val() || '' != $("#tel3").val()) {
-			//전화번호 정규식 체크
-			if ( ! $("#tel2").val().match(regexTel2) ) {
-				$("#tel2").text("전화번호 가운데 번호는 숫자 3자리~4자리로 입력하세요");
-				$("#tel2").focus();
-			} else {
-				$("#tel3").focus();
-			}
-			//전화번호 정규식 체크
-			if ( ! $("#tel3").val().match(regexTel2) ) {
-				$("#tel3").text("전화번호 마지막 번호는 숫자 4자리로 입력하세요");
-				$("#tel3").focus();
-			} else {
-				$("#btnPostCode").focus();
-			}
-		}
-		if ('' != $("#postcode").val() || '' != $("#detailAddress").val()) {
-			//상세주소 정규식 체크
-			if ( ! $("#detailAddress").val().match(regexDetailAddress) ) {
-				$("#detailAddress").text("문자 또는 숫자 또는 특수문자( .-#)의 조합 1~15자리로 입력하세요");
-				$("#detailAddress").focus();
-			} else {
-				$("#homepage").focus();
-			}
-		}  
-//		if ('' != $("#homepage").val()) {
-//			//홈페이지주소 정규식 체크
-//			if ( ! $("#homepage").val().match(regexHomepage) ) {
-//				$("#homepage").text("http://나 https://를 포함하여 문자 또는 숫자 또는 특수문자(.:/_-?=&)의 조합 11~50자리로 입력하세요");
-//				$("#homepage").focus();
-//			} else {
-//				$("#content").focus();
-//			}
-//		}
- 		if ('' != $("#content").val()) {
-			//자기소개 정규식 체크
-			if ( ! $("#content").val().match(regexContent) ) {
-				$("#content").text("문자 또는 숫자 또는 특수문자(~!?@#$%^&*()<>_+=-,.:;/ )의 조합 200자리로 입력하세요");
-				$("#content").focus();
+				return;
 			}
 		}
 	}
@@ -232,38 +276,32 @@ alert('fName.size='+ $("#fName").files[0].size);
 <%@ include file="/include/header_home.jsp" %>
 <%@ include file="/include/nav.jsp" %>
 <div class="container" style="padding:30px">
-<%-- 화일 전송 enctype
-  <form name="joinForm" method="post" action="${ctxPath}/memberJoinOk.mbr" class="was-validated" enctype="Multipart/form-data">
---%>
   <form name="joinForm" method="post" action="${ctxPath}/memberJoinOk.mbr" class="was-validated" >
-    <h2 class="text-center">회 원 가 입</h2>
+<%--   <form name="joinForm" method="post" action="${ctxPath}/memberJoinOk.mbr" class="was-validated" enctype="Multipart/form-data">
+ --%>    <h2 class="text-center">회 원 가 입</h2>
     <br/>
     <div class="form-group">
 		<label for="mid">아이디 : &nbsp; &nbsp;<input type="button" value="아이디 중복체크" class="btn btn-info" onclick="idCheck()"/></label>
 		<input type="text" class="form-control" id="mid" name="mid" placeholder="아이디를 입력하세요." maxlength=20 required autofocus/>
-		<div id="midValid" class="valid-feedback"></div>
 		<div id="midInValid" class="invalid-feedback">아이디는 필수 입력사항입니다.</div>
     </div>
     <div class="form-group">
-		<label for="pwd">비밀번호 :</label>
-		<input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호를 입력하세요." maxlength=20 required />
-		<div id="pwdValid" class="valid-feedback"></div>
-		<div id="pwdInvalid" class="invalid-feedback">비밀번호는 필수 입력사항입니다.</div>
+		<label for="pass">비밀번호 :</label>
+		<input type="password" class="form-control" id="pass" name="pass" placeholder="비밀번호를 입력하세요." maxlength=20 required />
+		<div id="passInvalid" class="invalid-feedback">비밀번호는 필수 입력사항입니다.</div>
     </div>
     <div class="form-group">
 		<label for="nickName">닉네임 : &nbsp; &nbsp;<input type="button" value="닉네임 중복체크" class="btn btn-info" onclick="nickNameCheck()"/></label>
 		<input type="text" class="form-control" id="nickName" name="nickName" placeholder="별명을 입력하세요." maxlength=20 required />
-		<div id="nickNameValid" class="valid-feedback"></div>
 		<div id="nickNameInvalid" class="invalid-feedback">닉네임은 필수 입력사항입니다.</div>
     </div>
     <div class="form-group">
 		<label for="name">성명 :</label>
 		<input type="text" class="form-control" id="name" name="name" placeholder="성명을 입력하세요." maxlength=20 required />
-		<div id="nameValid" class="valid-feedback"></div>
 		<div id="nameInvalid" class="invalid-feedback">성명은 필수 입력사항입니다.</div>
     </div>
     <div class="form-group" id="emailGroup">
-		<label for="email">Email address :</label>
+		<label for="email1">Email address :</label>
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" id="email1" name="email1" placeholder="Email을 입력하세요." maxlength=25 required />
 			<font size="5pt" class="text-center text-success"><b>@</b></font>
@@ -278,7 +316,6 @@ alert('fName.size='+ $("#fName").files[0].size);
 				</select>
 			</div>
 			<input type="hidden" class="form-control" id="email" name="email" />
-			<div id="email1Valid" class="valid-feedback"></div>
 			<div id="email1Invalid" class="invalid-feedback">이메일은 필수 입력사항입니다.</div>
 		</div>
 	</div>
@@ -315,14 +352,14 @@ alert('fName.size='+ $("#fName").files[0].size);
 					<option value="052">울산</option>
 					<option value="061">전북</option>
 					<option value="062">광주</option>
-				</select>-
+				</select>
 			</div>
-			<input type="text" id="tel2" name="tel2" size=4 maxlength=4 class="form-control"/>-
-			<input type="text" id="tel3" name="tel3" size=4 maxlength=4 class="form-control"/>
-			<br>
-			<input type="hidden" id="telNo" name="telNo" maxlength=13 class="form-control">
-			<div id="telNoValid" class="valid-feedback"></div>
-			<div id="telNoInValid" class="invalid-feedback"></div>
+			_<div><input type="text" id="tel2" name="tel2" size=4 maxlength=4 class="form-control" /></div>
+			_<div><input type="text" id="tel3" name="tel3" size=4 maxlength=4 class="form-control" /></div>
+ 			<div id="blank" class="is-invalid"></div>
+  			<div id="tel2InValid" class="invalid-feedback"></div>
+ 	 		<div id="tel3InValid" class="invalid-feedback"></div> 
+ 			<input type="hidden" id="telNo" name="telNo" maxlength=13 class="form-control">
 		</div> 
     </div>
     <div class="form-group" id="addressGroup">
@@ -336,7 +373,6 @@ alert('fName.size='+ $("#fName").files[0].size);
 			</div>
 			<div class="input-group">
 				<input type="text" class="form-control mt-2" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소" >
-				<div id="detailAddressValid" class="valid-feedback"></div>
 				<div id="detailAddressInValid" class="invalid-feedback"></div>
 				<input type="hidden" id="address" name="address">
 			</div>
@@ -345,7 +381,6 @@ alert('fName.size='+ $("#fName").files[0].size);
     <div class="form-group">
 	    <label for="homepage">홈페이지 주소 :</label>
 	    <input type="text" class="form-control" name="homepage" id="homepage" placeholder="'http://'없이 홈페이지를 입력하세요." maxlength=20 />
-		<div id="homepageValid" class="valid-feedback"></div>
 		<div id="homepageInValid" class="invalid-feedback"></div>
 	</div>
     <div class="form-group" id="jobGroup">
@@ -394,7 +429,6 @@ alert('fName.size='+ $("#fName").files[0].size);
     <div class="form-group">
 		<label for="content">자기소개 : </label>
 		<textarea rows="5" class="form-control" id="content" name="content" placeholder="자기소개를 입력하세요" maxlength=200 ></textarea>
-		<div id="contentValid" class="valid-feedback"></div>
 		<div id="contentInValid" class="invalid-feedback"></div>
     </div>
     <div class="form-group" id="userInfoGroup">
@@ -412,14 +446,13 @@ alert('fName.size='+ $("#fName").files[0].size);
     <div  class="form-group">
       회원 사진(파일용량:2MByte이내) :
 		<input type="file" id="fName" name="fName" class="form-control-file border btn-lg p-0 mt-2"/>
-		<div id="fileValid" class="valid-feedback"></div>
-		<div id="fileInValid" class="invalid-feedback"></div>
+		<div id="fNameInValid" class="invalid-feedback"></div>
+		<input type="hidden" id="photo" name="photo" />
     </div>
     <div class="form-group text-center">
-	    <input type="button" class="btn btn-info" value="회원가입" onclick="javascript:regexCheck();editForm();" />
+	    <input type="submit" class="btn btn-info" id="entry" value="회원가입" onclick="editForm(regexCheck())" />
 	    <input type="reset" class="btn btn-info"  value="다시작성"/>&nbsp;
-	    <input type="button" class="btn btn-info" value="돌아가기" onclick="location.href='${ctxPath}/memLogin.mem';"/><br>
-		<input type="hidden" id="photo" name="photo" />
+	    <input type="button" class="btn btn-info" value="돌아가기" onclick="location.href='${ctxPath}/memberLogin.mbr';"/><br>
 	</div>
   </form>
   <p><br/></p>

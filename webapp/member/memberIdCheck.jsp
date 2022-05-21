@@ -13,7 +13,7 @@
     	function setIdToParent() {
     		//아이디중복체크flg =yn 후 close()필요
     		opener.window.document.joinForm.mid.value = '${mid}';
-    		opener.window.document.joinForm.pwd.focus();
+    		opener.window.document.joinForm.pass.focus();
     		window.close();
     	}
     	//중복 아이디 다시 체크
