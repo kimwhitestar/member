@@ -24,22 +24,40 @@ public class MemberUpdateCommand implements MemberInterface {
 		//Form에 출력을 위한 분리작업
 		//Email 분리(@)
 		String[] email = vo.getEmail().split("@");
-		request.setAttribute("email1", email[0]);
-		request.setAttribute("email2", email[1]);
+		if (null == email || 2 > email.length) {
+			request.setAttribute("email1", "");
+			request.setAttribute("email2", "");
+		} else {
+			request.setAttribute("email1", email[0]);
+			request.setAttribute("email2", email[1]);
+		}
 		//생일
 		request.setAttribute("birthday", vo.getBirthday().substring(0, 10));
 		//전화번호 분리(-)
 		String[] tel = vo.getTel().split("-");
-		request.setAttribute("tel1", tel[0]);
-		request.setAttribute("tel2", tel[1]);
-		request.setAttribute("tel3", tel[2]);
+		if (null == tel || 3 > tel.length) {
+			request.setAttribute("tel1", "");
+			request.setAttribute("tel2", "");
+			request.setAttribute("tel3", "");
+		} else {
+			request.setAttribute("tel1", tel[0]);
+			request.setAttribute("tel2", tel[1]);
+			request.setAttribute("tel3", tel[2]);
+		}
 		//주소 분리(/)
-//		String[] address = vo.getAddress().split("/");
-		request.setAttribute("postcode", "30010");
-		request.setAttribute("roadAddress", "테스트주소1");
-		request.setAttribute("detailAddress", "테스트주소2");
-		request.setAttribute("extraAddress", "테스트주소3");
-		//취미 분리(/)
+		String[] address = vo.getAddress().split("/");
+		if (null == address || 3 > address.length) {
+			request.setAttribute("postcode", "");
+			request.setAttribute("roadAddress", "");
+			request.setAttribute("extraAddress", "");
+			request.setAttribute("detailAddress", "");
+		} else {
+			request.setAttribute("postcode", address[0]);
+			request.setAttribute("roadAddress", address[1]);
+			request.setAttribute("extraAddress", address[2]);
+			request.setAttribute("detailAddress", address[3]);
+		}
+		
 		request.setAttribute("vo", vo);
 	}
 }
