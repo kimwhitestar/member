@@ -32,6 +32,8 @@ create table member (
 );
 
 desc member;
+--update member set lastDate = '2022-04-01' where mid = 'tester31';
+--update member set userDel = 'OK' where mid = 'pkl6'
 --update member set level = 0 where mid='admin'
 --update member set level = 3 where mid='pkl1'
 --update member set email = 'pkl1@naver.com' where mid='pkl1'

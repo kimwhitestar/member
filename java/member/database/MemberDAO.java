@@ -354,7 +354,7 @@ public class MemberDAO {
 	public int insert(MemberVO vo) {
 		int res = 0;
 		try {
-			sql = "insert into member values ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , default, default, default, default, default, default, default)";
+			sql = "insert into member values ( default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, default , default, default, default, default, default, default)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1 , vo.getMid());
 			pstmt.setString(2 , vo.getPwd());
